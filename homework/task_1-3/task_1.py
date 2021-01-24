@@ -1,22 +1,20 @@
 import requests
 import pytest
 
-base_url = 'https://dog.ceo/api'
-
 
 @pytest.mark.parametrize("endpoint, status_code, status",
                          [("/breeds", 404, "error"),
                           ("/breeds/list", 200, "success"),
                           ("/breeds/list/", 200, "success"),
                           ("/breeds/list/all", 200, "success")])
-def test_get_all_list(endpoint, status_code, status):
+def test_get_all_list(base_url, endpoint, status_code, status):
     response = requests.get(base_url + endpoint)
 
     assert response.status_code == status_code
     assert response.json().get("status") == status
 
 
-def test_get_random_image():
+def test_get_random_image(base_url):
     response = requests.get(base_url + "/breeds/image/random")
 
     assert response.status_code == 200
@@ -35,7 +33,7 @@ def test_get_random_image():
                               'bluetick',
                               'borzoi',
                               'bouvier'])
-def test_get_random_image_by_breed(breed, quantity):
+def test_get_random_image_by_breed(base_url, breed, quantity):
     response = requests.get(base_url + "/breed/" + breed + "/images")
 
     assert response.status_code == 200
@@ -47,7 +45,7 @@ def test_get_random_image_by_breed(breed, quantity):
 
 @pytest.mark.parametrize("actual_quantity, exp_quantity",
                          [(1, 1), (0, 1), (13213230, 150), (150, 150), (151, 150), (0.232, 1)])
-def test_get_random_quantity_of_image(actual_quantity, exp_quantity):
+def test_get_random_quantity_of_image(base_url, actual_quantity, exp_quantity):
 
     response = requests.get(base_url + "/breed/groenendael/images/random/" + str(actual_quantity))
 
@@ -58,7 +56,7 @@ def test_get_random_quantity_of_image(actual_quantity, exp_quantity):
     assert len(data) == exp_quantity
 
 
-def test_get_sub_breed_list():
+def test_get_sub_breed_list(base_url):
     response = requests.get(base_url + "/breeds/list/all")
     breeds_list = response.json().get("message")
 
