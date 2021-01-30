@@ -1,3 +1,4 @@
+"""API-Tests for https://api.openbrewerydb.org/breweries"""
 import requests
 import pytest
 
@@ -27,12 +28,12 @@ def test_get_breweries_by_postal(base_url, postal_code):
         assert "33139" in breweries[i]['postal_code'].lower()
 
 
-@pytest.mark.parametrize("id", [2462, 1232, 1, 232, 45, 8033])
-def test_get_brewery_by_id(base_url, id):
-    response = requests.get(base_url + str(id))
+@pytest.mark.parametrize("brewery_id", [2462, 1232, 1, 232, 45, 8033])
+def test_get_brewery_by_id(base_url, brewery_id):
+    response = requests.get(base_url + str(brewery_id))
 
     assert response.status_code == 200
-    assert response.json().get("id") == id
+    assert response.json().get("id") == brewery_id
 
 
 def test_search_brewery(base_url):
