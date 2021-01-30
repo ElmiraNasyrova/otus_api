@@ -1,4 +1,4 @@
-# API-Tests for https://jsonplaceholder.typicode.com/.
+# API-Tests for https://jsonplaceholder.typicode.com
 
 import requests
 import pytest

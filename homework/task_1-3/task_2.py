@@ -30,7 +30,7 @@ def test_get_breweries_by_postal(base_url, postal_code):
 
 @pytest.mark.parametrize("brewery_id", [2462, 1232, 1, 232, 45, 8033])
 def test_get_brewery_by_id(base_url, brewery_id):
-    response = requests.get(base_url + str(brewery_id))
+    response = requests.get(base_url + '/' + str(brewery_id))
 
     assert response.status_code == 200
     assert response.json().get("id") == brewery_id
@@ -40,8 +40,8 @@ def test_search_brewery(base_url):
     test_word = 92530
     search_word = str(test_word)
 
-    response = requests.get(url=base_url + "search",
-                            params={"query=": search_word})
+    response = requests.get(url=base_url + "/search",
+                            params={"query": search_word})
 
     assert response.status_code == 200
     assert search_word in response.json()[0].get("postal_code")
@@ -49,7 +49,7 @@ def test_search_brewery(base_url):
 
 @pytest.mark.parametrize("name", ["california", "empty", "sunny", "1213"])
 def test_use_autocomplete(base_url, name):
-    response = requests.get(url=base_url + "autocomplete",
+    response = requests.get(url=base_url + "/autocomplete",
                             params={"query": name})
 
     assert response.status_code == 200

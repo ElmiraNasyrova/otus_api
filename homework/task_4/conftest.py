@@ -16,6 +16,6 @@ def base_url(request):
     return request.config.getoption("--url")
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def status_code(request):
     return request.config.getoption("--status_code")
